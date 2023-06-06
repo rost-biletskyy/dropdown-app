@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import Dropdown from "./components/Dropdown";
+import "./App.css";
 
-function App() {
+const _url = "https://jsonplaceholder.typicode.com/users";
+
+const App = () => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch(_url)
+      .then((response) => response.json())
+      .then((json) => setUsers(json));
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Dropdown
+        placeHolder="Select your name..."
+        users={users}
+        isMulti
+        isSearchable
+        onChange={(value) => console.log(value)}
+      />
     </div>
   );
-}
+};
 
 export default App;
